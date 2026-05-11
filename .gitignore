@@ -1,0 +1,32 @@
+# ==========================================
+# .gitignore RACINE DU PROJET (Stage 4A)
+# ==========================================
+
+# 1. Environnements et Cache Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+
+# 2. Dossiers de Données et Modèles (CRITIQUE)
+data/
+models/
+
+# 3. Sécurité supplémentaire Imagerie Médicale
+# (Au cas où un fichier traîne en dehors du dossier data)
+*.dcm
+*.nii
+*.nii.gz
+*.h5
+*.mat
+
+# 4. Fichiers temporaires MATLAB
+*.asv
+*.m~
+matlab_crash_dump.*
+
+# 5. Fichiers système et IDE (VS Code / Windows)
+.vscode/
+Thumbs.db
+Desktop.ini
