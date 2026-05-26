@@ -13,7 +13,8 @@ import torch
 # Importation de l'artillerie lourde de MONAI
 from monai.transforms import (
     Compose, LoadImaged, EnsureChannelFirstd, Spacingd, Orientationd,
-    ScaleIntensityRanged, CropForegroundd, RandCropByPosNegLabeld, ToTensord
+    ScaleIntensityRanged, CropForegroundd, RandCropByPosNegLabeld, ToTensord,
+    Lambdad, RandRotated, RandZoomd, RandGaussianNoised, RandAdjustContrastd # 🌟 Ajouts pour l'augmentation
 )
 from monai.data import Dataset, DataLoader
 from monai.utils import set_determinism
@@ -74,6 +75,17 @@ def get_train_transforms():
             image_key="image",
             image_threshold=0,
         ),
+
+        # --- 🌟 NOUVEAU : DATA AUGMENTATION ---
+        # 1. Rotation aléatoire (Simule un patient mal positionné dans le scanner)
+        RandRotated(keys=["image", "label"], range_x=0.3, range_y=0.3, range_z=0.3, prob=0.5, mode=("bilinear", "nearest")),
+        # 2. Zoom aléatoire (Simule un patient plus grand ou plus petit)
+        RandZoomd(keys=["image", "label"], prob=0.5, min_zoom=0.8, max_zoom=1.2, mode=("bilinear", "nearest")),
+        # 3. Bruit Gaussien (Simule un scanner de moins bonne qualité / basse dose)
+        RandGaussianNoised(keys=["image"], prob=0.5, mean=0.0, std=0.1),
+        # 4. Variation de contraste (Oblige l'IA à analyser la texture plutôt que la couleur absolue)
+        RandAdjustContrastd(keys=["image"], prob=0.5, gamma=(0.5, 2.0)),
+        # --------------------------------------
         
         # 8. Conversion finale en Tenseur PyTorch
         ToTensord(keys=["image", "label"])

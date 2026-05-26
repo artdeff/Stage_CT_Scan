@@ -30,7 +30,7 @@ WEIGHTS_DIR.mkdir(parents=True, exist_ok=True)
 best_model_path = WEIGHTS_DIR / "best_unet_model.pt"
 
 # 2. Paramètres d'entraînement
-EPOCHS = 50
+EPOCHS = 200
 LEARNING_RATE = 2e-4
 OUT_CHANNELS = 4  # 🌟 Nos 4 classes trouvées lors du contrôle qualité !
 
@@ -47,7 +47,8 @@ def train_pipeline():
     # --- Fonction de perte et Optimiseur ---
     # DiceCELoss combine la Dice Loss (parfaite pour les classes déséquilibrées comme la tumeur)
     # et la CrossEntropy (parfaite pour stabiliser les pixels du fond)
-    loss_function = DiceCELoss(to_onehot_y=True, softmax=True)
+    # 🌟 NOUVEAU : include_background=False force l'IA à ignorer le noir total !
+    loss_function = DiceCELoss(to_onehot_y=True, softmax=True, include_background=False)
     optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE, weight_decay=1e-5)
     
     # --- Outils pour la Précision Mixte (Économie VRAM pour ta 5070) ---
