@@ -54,13 +54,13 @@ def interactive_predicted_cube_viewer():
         
         # 3. Extraction de la coupe du milieu sur l'axe Z
         mid_z = cube_array.shape[2] // 2
-        img_slice = cube_array[:, :, mid_z]
+        img_slice = cube_array[:, :, 21]
         
         # 4. Affichage graphique (Matplotlib)
         plt.figure(figsize=(7, 7))
         
         # Les valeurs étant déjà normalisées entre 0.0 et 1.0 par l'extracteur
-        plt.imshow(img_slice.T, cmap="gray", vmin=0.0, vmax=1.0)
+        plt.imshow(img_slice.T, cmap="hot", vmin=0.0, vmax=1.0)
         plt.colorbar(label="Intensité normalisée (0.0 à 1.0)")
         
         plt.title(f"Coupe centrale Z={mid_z} du Pancréas IA\nPatient : {patient_id}", fontsize=12, fontweight='bold')

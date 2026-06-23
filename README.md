@@ -4,6 +4,7 @@ python -m pip freeze > requirements.txt
 toujours dans le .venv
 
 pour les image deja traiter par le medecin: /03_processed
+    pour applique le masque ia 
     pour visualiser des imagerie deja completé + avec l'ia local : python predict_and_visualize.py
     pour voir le pancrea localement : python view_extracted_cube.py
 
